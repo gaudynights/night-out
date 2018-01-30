@@ -1,4 +1,4 @@
-.list-overflow-container {
+/* .list-overflow-container {
   max-height: 545px;
   border: 1px #DDDDDD solid;
   border-radius: 4px;
@@ -11,7 +11,7 @@
 }
 
 .list-overflow-container li {
-  border-radius: 0px;
+  border-radius: 10px;
   border-left: none;
   border-right: none;
 }
@@ -30,4 +30,4 @@
 
 .list-overflow-container li:last-child {
   border-bottom: none;
-}
+} */

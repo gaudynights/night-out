@@ -13,6 +13,29 @@ const style = {
   buttonStyle: {
     backgroundColor: "#607D8B",
     marginBottom: 10
+  },
+  favBtn: {
+    backgroundColor: "#ddd",
+    color: "#F06292",
+    marginLeft: 10
+  },
+  divStyle: {
+    backgroundColor: "#607D8B",
+    color: "#fff",
+    float: "left",
+    paddingTop: 5,
+    paddingBottom: 5,
+    margin: 10,
+    borderRadius: 10,
+    boxShadow: "2px 2px #ccc"
+  },
+  headStyle: {
+    color: "#fff",
+    margin: 10,
+    textTransform: "none"
+  },
+  elementStyle: {
+    margin: 10
   }
 }
 
@@ -138,35 +161,37 @@ export default class Board extends React.Component {
           </form>
         </Modal>
 
-        <div></div>
-        <div></div>
         <div>
         {this.state.activities.length ? (
-              <List>
-                {this.state.activities.map(activity => (
-                  <ListItem key={activity._id}>
-                    <Link to={"/activities/" + activity._id}>
-                      <h2>
-                        {activity.activityName}
-                      </h2>
-                    </Link>
-                    <button onClick={this.handleLike}className="mdc-fab material-icons" aria-label="Favorite">
-                      <span className="mdc-fab__icon">
-                        favorite
-                      </span>
-                    </button>
-                    <p>{activity.activityDescription}</p>
-                    <p>{activity.activityTime}</p>
-                    <p>{activity.location}</p>
-                    <p>{activity.link}</p>
-                    <p>{activity.notes}</p>
-                    <p>{activity.date}</p>
-                    <p>{activity.votes}</p>
-                    <p>{activity.nightID}</p>
-                    <DeleteBtn onClick={() => this.deleteActivity(activity._id)} />
-                  </ListItem>
-                ))}
-              </List>
+              <div>
+                <List>
+                    {this.state.activities.map(activity => (
+                      <div style={style.divStyle}>
+                      <ListItem key={activity._id}>
+                        <Link to={"/activities/" + activity._id}>
+                          <DeleteBtn onClick={() => this.deleteActivity(activity._id)} />
+                          <h2 style={style.headStyle}>
+                            {activity.activityName}
+                          </h2>
+                          <button onClick={this.handleLike} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite">
+                            <span className="mdc-fab__icon">
+                              favorite
+                            </span>
+                          </button>
+                        </Link>
+                        <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
+                        <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
+                        <p style={style.elementStyle}><strong>Location: </strong>{activity.location}</p>
+                        <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
+                        <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
+                        <p style={style.elementStyle}><strong>Date: </strong>{activity.date}</p>
+                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.votes}</p>
+                        <p style={style.elementStyle}><strong>Night Code: </strong>{activity.nightID}</p>
+                      </ListItem>
+                      </div>
+                    ))}
+                </List>
+              </div>
             ) : (
               <h3>No Results to Display</h3>
             )}
