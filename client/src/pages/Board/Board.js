@@ -36,6 +36,13 @@ const style = {
   },
   elementStyle: {
     margin: 10
+  },
+  inputStyle: {
+    margin: 15
+  },
+  subBtn: {
+    margin: 10,
+    backgroundColor: "#607D8B"
   }
 }
 
@@ -131,9 +138,16 @@ export default class Board extends React.Component {
       <div style={style}>
         <h1>Board Name</h1>
         <hr />
+
         <button onClick={this.openModal} style={style.buttonStyle} className="mdc-fab material-icons">
           <span className="mdc-fab__icon">add</span>
         </button>
+
+        <div className="mdc-text-field">
+          <input style={style.inputStyle} name="nightcode" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightcode} placeholder="Night Code" />
+        </div>
+        <button style={style.subBtn} className="mdc-button mdc-button--raised">Submit</button>
+
         <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false}>
           <button onClick={this.closeModal}>X</button>
           <h1>Add To Your Board</h1>
