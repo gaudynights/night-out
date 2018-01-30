@@ -38,12 +38,6 @@ export default class Board extends React.Component {
     this.setState({ modalIsOpen: false });
   };
 
-  handleLike = (e) => {
-    e.preventDefault();
-    alert("like");
-  };
-
-
     state = {
     activities: [],
     activityName: "",
@@ -74,6 +68,16 @@ export default class Board extends React.Component {
       .then(res => this.loadActivities())
       .catch(err => console.log(err));
   };
+
+  upvoteActivity = (id , votes) => {
+        alert("current votes "+votes);
+    API.updateActivity(id,{
+      votes: votes+1
+    })
+      .then(res => this.loadActivities())
+      .catch(err => console.log(err));    
+  }
+
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,7 +154,7 @@ export default class Board extends React.Component {
                         {activity.activityName} 
                       </h2>
                     </Link>
-                    <button onClick={this.handleLike}className="mdc-fab material-icons" aria-label="Favorite">
+                    <button onClick={() => this.upvoteActivity(activity._id, activity.votes)} className="mdc-fab material-icons" aria-label="Favorite">
                       <span className="mdc-fab__icon">
                         favorite
                       </span>
