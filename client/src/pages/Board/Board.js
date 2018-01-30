@@ -1,5 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
+import DeleteBtn from "../../components/DeleteBtn";
+import Jumbotron from "../../components/Jumbotron";
+import API from "../../utils/API";
+import { Link } from "react-router-dom";
 import Modal from "react-modal";
+import { Col, Row, Container } from "../../components/Grid";
+import { List, ListItem } from "../../components/List";
+import { Input, TextArea, FormBtn } from "../../components/Form";
 
 const style = {
   margin: 20,
@@ -10,12 +17,7 @@ const style = {
 }
 
 export default class Board extends React.Component {
-  state = {
-    modalIsOpen: false,
-    category: "",
-    location: "",
-    time: ""
-  }
+
 
   closeModal = () => {
     this.setState({ modalIsOpen: false });
@@ -30,6 +32,49 @@ export default class Board extends React.Component {
     });
   }
 
+  handleClick = (e) => {
+    e.preventDefault();
+    console.log(this.state);
+    this.setState({ modalIsOpen: false });
+  };
+
+  handleLike = (e) => {
+    e.preventDefault();
+    alert("like");
+  };
+
+
+    state = {
+    activities: [],
+    activityName: "",
+    activityDescription: "",
+    activityTime: "",
+    location: "",
+    link: "",
+    notes: "",
+    votes: "",
+    nightID: "",
+    modalIsOpen: false
+    };
+
+  componentDidMount() {
+    this.loadActivities();
+  }
+
+  loadActivities = () => {
+    API.getActivities()
+      .then(res =>
+        this.setState({ activities: res.data, activityName: "", activityDescription: "", activityTime: "", location: "", link: "", notes: "", votes: "", nightID: ""})
+      )
+      .catch(err => console.log(err));
+  };
+
+  deleteActivity = id => {
+    API.deleteActivity(id)
+      .then(res => this.loadActivities())
+      .catch(err => console.log(err));
+  };
+
   handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -38,10 +83,24 @@ export default class Board extends React.Component {
     });
   };
 
-  handleClick = (e) => {
-    e.preventDefault();
-    console.log(this.state);
-    this.setState({ modalIsOpen: false });
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if (this.state.activityName && this.state.activityDescription) {
+        console.log(this.state);
+      API.saveActivity({
+        activityName: this.state.activityName,
+        activityDescription: this.state.activityDescription,
+        activityTime: this.state.activityTime,
+        location: this.state.location,
+        link: this.state.link,
+        notes: this.state.notes,
+        votes: this.state.votes,
+        nightID: this.state.nightID
+      })
+        .then(res => this.loadActivities())
+        .catch(err => console.log(err));
+        this.setState({ modalIsOpen: false });
+    }
   };
 
   render() {
@@ -57,22 +116,60 @@ export default class Board extends React.Component {
           <h1>Add To Your Board</h1>
           <form>
             <div className="mdc-text-field">
-              <input name="category" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.category} placeholder="Category" />
+              <input name="activityName" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityName} placeholder="activityName" />
             </div><br />
             <div className="mdc-text-field">
-              <input name="location" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.location} placeholder="Location" />
+              <input name="activityDescription" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityDescription} placeholder="activityDescription" />
             </div><br />
             <div className="mdc-text-field">
-              <input name="time" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.time} placeholder="Time" />
+              <input name="activityTime" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityTime} placeholder="activityTime" />
             </div><br />
-            <button onClick={this.handleClick} style={style.buttonStyle} className="mdc-button mdc-button--raised">Submit</button>
+            <div className="mdc-text-field">
+              <input name="location" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.location} placeholder="location" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="nightID" />
+            </div><br />
+
+            <button onClick={this.handleFormSubmit} style={style.buttonStyle} className="mdc-button mdc-button--raised">Submit</button>
           </form>
         </Modal>
+
+        <div></div>
+        <div></div>
         <div>
-          <p>{this.state.title}</p>
-          <p>{this.state.category}</p>
-          <p>{this.state.location}</p>
-          <p>{this.state.time}</p>
+        {this.state.activities.length ? (
+              <List>
+                {this.state.activities.map(activity => (
+                  <ListItem key={activity._id}>
+                    <Link to={"/activities/" + activity._id}>
+                      <h2>
+                        {activity.activityName}
+                      </h2>
+                    </Link>
+                    <button onClick={this.handleLike}className="mdc-fab material-icons" aria-label="Favorite">
+                      <span className="mdc-fab__icon">
+                        favorite
+                      </span>
+                    </button>
+                    <p>{activity.activityDescription}</p>
+                    <p>{activity.activityTime}</p>
+                    <p>{activity.location}</p>
+                    <p>{activity.link}</p>
+                    <p>{activity.notes}</p>
+                    <p>{activity.date}</p>
+                    <p>{activity.votes}</p>
+                    <p>{activity.nightID}</p>
+                    <DeleteBtn onClick={() => this.deleteActivity(activity._id)} />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
         </div>
       </div>
     );

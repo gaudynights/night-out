@@ -7,6 +7,7 @@
     "server": "node server.js",
     "client": "node scripts/start-client.js",
     "start": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "seed": "scripts/seedDB.js",
     "build": "node scripts/build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +21,7 @@
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.15.4",
-    "mongoose": "^5.0.2"
+    "mongoose": "^5.0.2",
+    "react-modal": "^3.1.11"
   }
 }
