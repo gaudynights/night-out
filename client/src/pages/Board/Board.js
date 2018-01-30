@@ -10,14 +10,11 @@ const style = {
 }
 
 export default class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalIsOpen: false,
-      category: "",
-      location: "",
-      time: ""
-    }
+  state = {
+    modalIsOpen: false,
+    category: "",
+    location: "",
+    time: ""
   }
 
   closeModal = () => {
