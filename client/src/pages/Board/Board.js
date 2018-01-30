@@ -3,6 +3,7 @@ import DeleteBtn from "../../components/DeleteBtn";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
@@ -17,9 +18,24 @@ const style = {
 
 export default class Board extends React.Component {
 
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+    this.setState({
+      category: "",
+      location: "",
+      time: ""
+    });
+  }
+
   handleClick = (e) => {
     e.preventDefault();
-    alert("click");
+    console.log(this.state);
+    this.setState({ modalIsOpen: false });
   };
 
   handleLike = (e) => {
@@ -37,7 +53,8 @@ export default class Board extends React.Component {
     link: "",
     notes: "",
     votes: "",
-    nightID: ""
+    nightID: "",
+    modalIsOpen: false
     };
 
   componentDidMount() {
@@ -58,8 +75,9 @@ export default class Board extends React.Component {
       .catch(err => console.log(err));
   };
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
+  handleChange = (e) => {
+    const { name, value } = e.target;
+
     this.setState({
       [name]: value
     });
@@ -68,6 +86,7 @@ export default class Board extends React.Component {
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.activityName && this.state.activityDescription) {
+        console.log(this.state);
       API.saveActivity({
         activityName: this.state.activityName,
         activityDescription: this.state.activityDescription,
@@ -80,6 +99,7 @@ export default class Board extends React.Component {
       })
         .then(res => this.loadActivities())
         .catch(err => console.log(err));
+        this.setState({ modalIsOpen: false });
     }
   };
 
@@ -88,9 +108,36 @@ export default class Board extends React.Component {
       <div style={style}>
         <h1>Board Name</h1>
         <hr />
-        <button onClick={this.handleClick} style={style.buttonStyle} className="mdc-fab material-icons">
+        <button onClick={this.openModal} style={style.buttonStyle} className="mdc-fab material-icons">
           <span className="mdc-fab__icon">add</span>
         </button>
+        <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false}>
+          <button onClick={this.closeModal}>X</button>
+          <h1>Add To Your Board</h1>
+          <form>
+            <div className="mdc-text-field">
+              <input name="activityName" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityName} placeholder="activityName" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="activityDescription" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityDescription} placeholder="activityDescription" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="activityTime" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityTime} placeholder="activityTime" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="location" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.location} placeholder="location" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
+            </div><br />
+            <div className="mdc-text-field">
+              <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="nightID" />
+            </div><br />
+
+            <button onClick={this.handleFormSubmit} style={style.buttonStyle} className="mdc-button mdc-button--raised">Submit</button>
+          </form>
+        </Modal>
+
         <div></div>
         <div></div>
         <div>            
