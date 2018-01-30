@@ -8,14 +8,12 @@ const style = {
 }
 
 export default class NewUser extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       name: "",
       email: "",
       password: ""
     }
-  }
+
 
   handleChange = (e) => {
     const { name, value } = e.target;
