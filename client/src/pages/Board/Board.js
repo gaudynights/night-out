@@ -172,17 +172,19 @@ export default class Board extends React.Component {
                     {this.state.activities.map(activity => (
                       <div style={style.divStyle}>
                       <ListItem key={activity._id}>
-                        <Link to={"/activities/" + activity._id}>
+
                           <DeleteBtn onClick={() => this.deleteActivity(activity._id)} />
+                        <Link to={"/activities/" + activity._id}>
                           <h2 style={style.headStyle}>
                             {activity.activityName}
                           </h2>
-                          <button onClick={this.handleLike} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite">
+                          </Link>
+                          <button onClick={() => this.upvoteActivity(activity._id,activity.votes)} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite">
                             <span className="mdc-fab__icon">
                               favorite
                             </span>
                           </button>
-                        </Link>
+                        
                         <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
                         <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
                         <p style={style.elementStyle}><strong>Location: </strong>{activity.location}</p>
