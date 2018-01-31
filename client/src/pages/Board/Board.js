@@ -100,7 +100,7 @@ export default class Board extends React.Component {
   };
 
   upvoteActivity = (id , votes) => {
-        alert("current votes "+votes);
+        // alert("current votes "+votes);
     API.updateActivity(id,{
       votes: votes+1
     })
@@ -198,7 +198,7 @@ export default class Board extends React.Component {
                               favorite
                             </span>
                           </button>
-                        
+
                         <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
                         <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
                         <p style={style.elementStyle}><strong>Location: </strong>{activity.location}</p>
