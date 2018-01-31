@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
 import Nav from "./pages/Main";
 import Login from "./pages/Login";
 import Board from "./pages/Board";
@@ -13,9 +14,11 @@ const App = () =>
     <div>
       <Nav />
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/board" component={Board} />
         <Route exact path="/newuser" component={NewUser} />
+        <Route exact path="/activities/:id" component={Detail} />
         <Route exact path="/books" component={Books} />
         <Route exact path="/books/:id" component={Detail} />
       </Switch>
