@@ -19,5 +19,11 @@ export default {
   // Saves an activity to the database
   saveActivity: function(activityData) {
     return axios.post("/api/activities", activityData);
+  },
+  createUser: function(userData){
+    return axios.post("/api/authenticate/register", userData);
+  },
+  login:function(userData){
+    return axios.post("/api/authenticate/login",userData);
   }
 };
