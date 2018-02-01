@@ -13,6 +13,7 @@ router
   .put(activitiesController.update)
   .delete(activitiesController.remove);
 
+// Matches with "/api/activities/:nightID"
 router
   .route("/:nightID")
   .post(activitiesController.findNight);

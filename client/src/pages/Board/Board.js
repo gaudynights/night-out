@@ -78,6 +78,19 @@ export default class Board extends React.Component {
     modalIsOpen: false
     };
 
+    componentDidMount = () => {
+      const nightCode = localStorage.getItem("nightID");
+
+      if (nightCode) {
+        this.loadNight(nightCode);
+      } else {
+        this.loadNight();
+      }
+      this.setState({
+        nightID: nightCode
+      })
+    }
+
   loadNight = (nightID) => {
     API.getNight(nightID)
     .then(res => {
@@ -108,9 +121,10 @@ export default class Board extends React.Component {
     });
   };
 
-  handleNightID = (e) => {
+  handleSearch = (e) => {
     e.preventDefault();
     this.loadNight(this.state.nightID);
+    localStorage.setItem("nightID", this.state.nightID);
   }
 
   handleFormSubmit = e => {
@@ -147,7 +161,7 @@ export default class Board extends React.Component {
         <div className="mdc-text-field">
           <input style={style.inputStyle} name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="Night Code" />
         </div>
-        <button style={style.subBtn} onClick={this.handleNightID} className="mdc-button mdc-button--raised">Submit</button>
+        <button style={style.subBtn} onClick={this.handleSearch} className="mdc-button mdc-button--raised">Submit</button>
 
         {/* modal for adding to the board */}
         <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false}>
@@ -170,7 +184,7 @@ export default class Board extends React.Component {
               <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
             </div><br />
             <div className="mdc-text-field">
-              <input name="nightID" className="mdc-text-field__input" value={this.state.nightID} placeholder="nightID" />
+              <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="nightID" />
             </div><br />
 
             <button onClick={this.handleFormSubmit} style={style.buttonStyle} className="mdc-button mdc-button--raised">Submit</button>

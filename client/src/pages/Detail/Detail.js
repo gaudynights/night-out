@@ -23,7 +23,7 @@ class Detail extends Component {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {this.state.activityName} 
+                {this.state.activityName}
               </h1>
             </Jumbotron>
           </Col>
