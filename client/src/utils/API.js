@@ -28,5 +28,8 @@ export default {
   },
   login:function(userData){
     return axios.post("/api/authenticate/login",userData);
+  },
+  locationSearch:function(location){
+    return axios.get("/api/activities/details", location);
   }
 };
