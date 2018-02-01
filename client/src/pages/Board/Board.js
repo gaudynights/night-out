@@ -1,12 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
 
 const style = {
   margin: 20,
@@ -48,23 +45,23 @@ const style = {
 
 export default class Board extends React.Component {
 
-
   closeModal = () => {
     this.setState({ modalIsOpen: false });
   };
 
   openModal = () => {
-    this.setState({ modalIsOpen: true });
     this.setState({
-      category: "",
+      activityName: "",
+      activityDescription: "",
+      activityTime: "",
       location: "",
-      time: ""
+      link: "",
+      modalIsOpen: true
     });
-  }
+  };
 
   handleClick = (e) => {
     e.preventDefault();
-    console.log(this.state);
     this.setState({ modalIsOpen: false });
   };
 
@@ -81,30 +78,24 @@ export default class Board extends React.Component {
     modalIsOpen: false
     };
 
-  componentDidMount() {
-    this.loadActivities();
+  loadNight = (nightID) => {
+    API.getNight(nightID)
+    .then(res => {
+      this.setState({ activities: res.data });
+    }).catch(err => console.log(err));
   }
-
-  loadActivities = () => {
-    API.getActivities()
-      .then(res =>
-        this.setState({ activities: res.data, activityName: "", activityDescription: "", activityTime: "", location: "", link: "", notes: "", votes: "", nightID: ""})
-      )
-      .catch(err => console.log(err));
-  };
 
   deleteActivity = id => {
     API.deleteActivity(id)
-      .then(res => this.loadActivities())
+      .then(res => this.loadNight(this.state.nightID))
       .catch(err => console.log(err));
   };
 
   upvoteActivity = (id , votes) => {
-        // alert("current votes "+votes);
     API.updateActivity(id,{
       votes: votes+1
     })
-      .then(res => this.loadActivities())
+      .then(res => this.loadNight(this.state.nightID))
       .catch(err => console.log(err));
   }
 
@@ -117,10 +108,14 @@ export default class Board extends React.Component {
     });
   };
 
-  handleFormSubmit = event => {
-    event.preventDefault();
+  handleNightID = (e) => {
+    e.preventDefault();
+    this.loadNight(this.state.nightID);
+  }
+
+  handleFormSubmit = e => {
+    e.preventDefault();
     if (this.state.activityName && this.state.activityDescription) {
-        console.log(this.state);
       API.saveActivity({
         activityName: this.state.activityName,
         activityDescription: this.state.activityDescription,
@@ -131,7 +126,7 @@ export default class Board extends React.Component {
         votes: this.state.votes,
         nightID: this.state.nightID
       })
-        .then(res => this.loadActivities())
+        .then(res => this.loadNight(this.state.nightID))
         .catch(err => console.log(err));
         this.setState({ modalIsOpen: false });
     }
@@ -143,15 +138,18 @@ export default class Board extends React.Component {
         <h1>Board Name</h1>
         <hr />
 
+        {/* Button to add to board */}
         <button onClick={this.openModal} style={style.buttonStyle} className="mdc-fab material-icons">
           <span className="mdc-fab__icon">add</span>
         </button>
 
+        {/* input for night id */}
         <div className="mdc-text-field">
-          <input style={style.inputStyle} name="nightcode" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightcode} placeholder="Night Code" />
+          <input style={style.inputStyle} name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="Night Code" />
         </div>
-        <button style={style.subBtn} className="mdc-button mdc-button--raised">Submit</button>
+        <button style={style.subBtn} onClick={this.handleNightID} className="mdc-button mdc-button--raised">Submit</button>
 
+        {/* modal for adding to the board */}
         <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false}>
           <button onClick={this.closeModal}>X</button>
           <h1>Add To Your Board</h1>
@@ -172,13 +170,14 @@ export default class Board extends React.Component {
               <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
             </div><br />
             <div className="mdc-text-field">
-              <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="nightID" />
+              <input name="nightID" className="mdc-text-field__input" value={this.state.nightID} placeholder="nightID" />
             </div><br />
 
             <button onClick={this.handleFormSubmit} style={style.buttonStyle} className="mdc-button mdc-button--raised">Submit</button>
           </form>
         </Modal>
 
+        {/* Board items dispaly */}
         <div>
         {this.state.activities.length ? (
               <div>
