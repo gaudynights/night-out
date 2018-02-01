@@ -13,5 +13,8 @@ router
   .put(activitiesController.update)
   .delete(activitiesController.remove);
 
+router
+  .route("/:nightID")
+  .post(activitiesController.findNight);
+
 module.exports = router;
- 

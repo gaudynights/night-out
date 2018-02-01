@@ -9,6 +9,9 @@ export default {
   getActivity: function(id) {
     return axios.get("/api/activities/" + id);
   },
+  getNight: function(nightID) {
+    return axios.post("/api/activities/" + nightID);
+  },
   // Deletes the activity with the given id
   deleteActivity: function(id) {
     return axios.delete("/api/activities/" + id);

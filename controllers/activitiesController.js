@@ -15,6 +15,13 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findNight: function(req, res) {
+    db.Activity
+      .find({ nightID: req.params.nightID })
+      .sort({ date: 1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   create: function(req, res) {
     db.Activity
       .create(req.body)
