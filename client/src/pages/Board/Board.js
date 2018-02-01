@@ -205,8 +205,8 @@ export default class Board extends React.Component {
               <div>
                 <List>
                     {this.state.activities.map(activity => (
-                      <div style={style.divStyle}>
-                      <ListItem key={activity._id}>
+                      <div style={style.divStyle} key={activity._id}>
+                      <ListItem >
 
                           <DeleteBtn onClick={() => this.deleteActivity(activity._id)} />
                         <Link to={"/activities/" + activity._id}>
