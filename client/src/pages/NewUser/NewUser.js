@@ -1,4 +1,5 @@
 import React from "react";
+import API from "../../utils/API";
 
 const style = {
   margin: 20,
@@ -9,7 +10,8 @@ const style = {
 
 export default class NewUser extends React.Component {
     state = {
-      name: "",
+      firstName: "",
+      lastName:"",
       email: "",
       password: ""
     }
@@ -21,12 +23,29 @@ export default class NewUser extends React.Component {
     this.setState({
       [name]: value
     });
+    // console.log("state: "+JSON.stringify(this.state));
   };
 
   handleClick = (e) => {
     e.preventDefault();
     console.log(this.state);
-  }
+  };
+
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if (this.state.email && this.state.password && this.state.firstName && this.state.lastName) {
+        console.log(this.state);
+      API.createUser({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password
+      })
+        .then(res => {alert("user created"); console.log(res);})
+        .catch(err => console.log(err));
+    }
+  };
 
   render() {
     return (
@@ -35,7 +54,11 @@ export default class NewUser extends React.Component {
         <hr />
         <form>
           <div className="mdc-text-field">
-            <input name="name" type="text" className="mdc-text-field__input" placeholder="Full Name" value={this.state.name} onChange={this.handleChange} />
+            <input name="firstName" type="text" className="mdc-text-field__input" placeholder="First Name" value={this.state.firstName} onChange={this.handleChange} />
+          </div>
+          <br />
+          <div className="mdc-text-field">
+            <input name="lastName" type="text" className="mdc-text-field__input" placeholder="Last Name" value={this.state.lastName} onChange={this.handleChange} />
           </div>
           <br />
           <div className="mdc-text-field">
@@ -46,7 +69,7 @@ export default class NewUser extends React.Component {
             <input name="password" type="password" className="mdc-text-field__input" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
           </div>
           <br/>
-          <button className="mdc-button mdc-button--raised" style={style.buttonStyle} onClick={this.handleClick} type="submit">Submit</button>
+          <button className="mdc-button mdc-button--raised" style={style.buttonStyle} onClick={this.handleFormSubmit} type="submit">Submit</button>
         </form>
       </div>
     );
