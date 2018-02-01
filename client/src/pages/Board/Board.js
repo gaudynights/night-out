@@ -40,7 +40,15 @@ const style = {
   subBtn: {
     margin: 10,
     backgroundColor: "#607D8B"
+  },
+  modal: {
+    overlay: {
+      backgroundColor: "rgba(150, 150, 150, .8)"
+    },
+    content : {
+      borderRadius: "15px"
   }
+}
 }
 
 export default class Board extends React.Component {
@@ -164,7 +172,7 @@ export default class Board extends React.Component {
         <button style={style.subBtn} onClick={this.handleSearch} className="mdc-button mdc-button--raised">Submit</button>
 
         {/* modal for adding to the board */}
-        <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false}>
+        <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false} style={style.modal}>
           <button onClick={this.closeModal}>X</button>
           <h1>Add To Your Board</h1>
           <form>
