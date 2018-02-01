@@ -1,5 +1,6 @@
 import React from "react";
 import API from "../../utils/API";
+import { Link } from "react-router-dom";
 
 const style = {
   margin: 20,
@@ -15,7 +16,7 @@ export default class Login extends React.Component {
       email: "",
       password: ""
     };
-  
+
 
   handleClick = (e) => {
     e.preventDefault();
@@ -58,7 +59,7 @@ export default class Login extends React.Component {
             <input type="password" name="password" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.password} placeholder="password" />
           </div><br />
         <button style={style.buttonStyle} className="mdc-button mdc-button--raised" type="submit" onClick={this.handleFormSubmit}>Login</button>
-          <button style={style.buttonStyle} className="mdc-button mdc-button--raised" type="submit">New User</button>
+          <Link to="/newuser" style={style.buttonStyle} className="mdc-button mdc-button--raised">New User</Link>
         </form>
       </div>
     );
