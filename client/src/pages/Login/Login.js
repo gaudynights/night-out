@@ -39,7 +39,7 @@ export default class Login extends React.Component {
         email: this.state.email,
         password: this.state.password
       })
-        .then(res => alert("logged in!"))
+        .then(res => {alert("logged in!"); console.log(res);})
         .catch(err => console.log(err));
     }
   };

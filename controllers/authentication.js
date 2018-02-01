@@ -103,6 +103,7 @@ exports.register = function(req, res, next) {
 exports.roleAuthorization = function(role) {  
   return function(req, res, next) {
     const user = req.user;
+    console.log(req.user);
 
     User.findById(user._id, function(err, foundUser) {
       if (err) {
