@@ -87,13 +87,11 @@ export default class Board extends React.Component {
     };
 
     componentDidMount = () => {
-      const nightCode = localStorage.getItem("nightID");
-
-      if (nightCode) {
+      const token=localStorage.getItem("token");
+      const nightCode = localStorage.getItem("nightID")||"";
+      if (nightCode && token) {
         this.loadNight(nightCode);
-      } else {
-        this.loadNight();
-      }
+      } 
       this.setState({
         nightID: nightCode
       })
@@ -110,7 +108,7 @@ export default class Board extends React.Component {
     API.deleteActivity(id)
       .then(res => this.loadNight(this.state.nightID))
       .catch(err => console.log(err));
-  };
+  }
 
   upvoteActivity = (id , votes) => {
     API.updateActivity(id,{
