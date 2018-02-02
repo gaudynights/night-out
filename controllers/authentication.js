@@ -14,6 +14,7 @@ function generateToken(user) {
 
 // Set user info from request
 function setUserInfo(request) {  
+
   return {
     _id: request._id,
     firstName: request.profile.firstName,
@@ -27,11 +28,11 @@ function setUserInfo(request) {
 // Login Route
 //========================================
 exports.login = function(req, res, next) {
-
+console.log("log in authentication controller");
   let userInfo = setUserInfo(req.user);
 
   res.status(200).json({
-    token: 'JWT ' + generateToken(userInfo),
+    token: generateToken(userInfo),
     user: userInfo
   });
 }
@@ -88,7 +89,7 @@ exports.register = function(req, res, next) {
         let userInfo = setUserInfo(user);
 
         res.status(201).json({
-          token: 'JWT ' + generateToken(userInfo),
+          token: generateToken(userInfo),
           user: userInfo
         });
       });
@@ -112,7 +113,7 @@ exports.roleAuthorization = function(role) {
       }
 
       // If user is found, check role.
-      if (foundUser.role == role) {
+      if (foundUser.role ) {
         return next();
       }
 

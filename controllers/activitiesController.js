@@ -16,6 +16,11 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findNight: function(req, res) {
+    // console.log(req);
+    // console.log(req);
+    if(req.user){
+      console.log(req.user);  
+    }
     db.Activity
       .find({ nightID: req.params.nightID })
       .sort({ date: 1 })

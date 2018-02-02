@@ -40,10 +40,26 @@ export default class Login extends React.Component {
         email: this.state.email,
         password: this.state.password
       })
-        .then(res => {alert("logged in!"); console.log(res);})
+        .then(res => {
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("userID", res.data.user._id);
+          localStorage.setItem("email", res.data.user.email);
+          this.props.login();
+          alert("logged in!"); 
+          console.log(res);
+          this.props.history.push("/board")
+        })
         .catch(err => console.log(err));
     }
   };
+
+
+  // // this.login
+
+  // login = () => {
+  //   // this.props.login
+  //   this.props.login();
+  // }
 
 
   render() {
