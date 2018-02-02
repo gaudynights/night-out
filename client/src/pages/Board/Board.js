@@ -166,7 +166,7 @@ export default class Board extends React.Component {
   render() {
     return (
       <div style={style}>
-        <h1>{this.state.nightID|| "New Night"}</h1>
+        <h1>{localStorage.getItem("nightID")|| "New Night"}</h1>
         <hr />
 
         {/* Button to add to board */}
