@@ -28,7 +28,14 @@ class App extends React.Component {
           <Nav />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/login" render={()=><Login login={this.login} /> } />
+            <Route exact path="/login" render={
+              (props)=>{
+                return (
+                  <Login login={this.login} history={props.history} /> 
+                );
+              }
+            } 
+            />
             <Route exact path="/board" component={Board} />
             <Route exact path="/newuser" component={NewUser} />
             <Route exact path="/activities/:id" component={Detail} />
