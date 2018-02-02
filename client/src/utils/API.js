@@ -1,7 +1,7 @@
 import axios from "axios";
 // axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
-const frontURL = "https://api.giphy.com/v1/gifs/search?q=";
-const backURL = "&api_key=dc6zaTOxFJmzC&limit=20";
+const frontURL = "";
+const backURL = "";
 
 const getToken = () => {
   const token=localStorage.getItem("token");

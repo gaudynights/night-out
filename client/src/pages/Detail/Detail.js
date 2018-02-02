@@ -6,6 +6,9 @@ const style = {
   margin: 20,
   btnStyle: {
     backgroundColor: "#607D8B"
+  },
+  locationStyle: {
+    cursor: "pointer"
   }
 }
 
@@ -22,12 +25,15 @@ class Detail extends Component {
 
   searchLocation = (loc) => {
     API.search(loc)
-    .then(res => this.setState({ result: res.data }))
+    .then(res => {
+      this.setState({ result: res.data })
+      console.log(res.data);
+    })
     .catch(err => console.log(err));
   }
 
   handleClick = () => {
-    this.searchLocation(this.state.location);
+    this.searchLocation(this.state.activity.location);
   }
 
   render() {
@@ -36,7 +42,7 @@ class Detail extends Component {
         <h1>{this.state.activity.activityName}</h1>
         <hr />
         <h3>More Details</h3>
-        <p>Location: {this.state.activity.location}</p>
+        <p>Location: <span style={style.locationStyle} onClick={this.handleClick}>{this.state.activity.location}</span></p>
         <p>Description: {this.state.activity.activityDescription}</p>
         <Link style={style.btnStyle} to="/board" className="mdc-button mdc-button--raised">← Back to board</Link>
     </div>
