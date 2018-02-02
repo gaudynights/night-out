@@ -88,20 +88,29 @@ export default class Board extends React.Component {
 
     componentDidMount = () => {
       const token=localStorage.getItem("token");
+      const email=localStorage.getItem("email");
+      const name=localStorage.getItem("name");
       const nightCode = localStorage.getItem("nightID")||"";
       if (nightCode && token) {
         this.loadNight(nightCode);
       } 
       this.setState({
-        nightID: nightCode
+        nightID: nightCode,
+        email: email,
+        name: name
       });
     };
 
   loadNight = (nightID) => {
     API.getNight(nightID)
     .then(res => {
+      // const orderedActivities = res.data
       this.setState({ activities: res.data });
-    }).catch(err => console.log(err));
+    })
+    .catch(err => {
+      console.log(err); 
+      alert("try logging in again\n"+ err);
+    });
   }
 
   deleteActivity = id => {
@@ -110,9 +119,10 @@ export default class Board extends React.Component {
       .catch(err => console.log(err));
   }
 
-  upvoteActivity = (id , votes) => {
+  upvoteActivity = (id , votes, lovers) => {
     API.updateActivity(id,{
-      votes: votes+1
+      // votes: votes+1,
+      $addToSet: {lovers: this.state.name}
     })
       .then(res => this.loadNight(this.state.nightID))
       .catch(err => console.log(err));
@@ -155,7 +165,7 @@ export default class Board extends React.Component {
   render() {
     return (
       <div style={style}>
-        <h1>Board Name</h1>
+        <h1>{this.state.nightID|| "New Night"}</h1>
         <hr />
 
         {/* Button to add to board */}
@@ -212,11 +222,11 @@ export default class Board extends React.Component {
                             {activity.activityName}
                           </h2>
                           </Link>
-                          <button onClick={() => this.upvoteActivity(activity._id,activity.votes)} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite">
+                          <button onClick={() => this.upvoteActivity(activity._id,activity.votes)} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite"> 
                             <span className="mdc-fab__icon">
                               favorite
                             </span>
-                          </button>
+                          </button> 
 
                         <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
                         <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
@@ -224,15 +234,17 @@ export default class Board extends React.Component {
                         <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
                         <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
                         <p style={style.elementStyle}><strong>Date: </strong>{activity.date}</p>
-                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.votes}</p>
+                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.lovers.length}</p>
+                        <p style={style.elementStyle}><strong>Lovers: </strong>{activity.lovers.map( lover => (lover+" "))}</p>                        
                         <p style={style.elementStyle}><strong>Night Code: </strong>{activity.nightID}</p>
                       </ListItem>
                       </div>
                     ))}
                 </List>
               </div>
-            ) : (
-              <h3>No Results to Display</h3>
+            ) : (<div>
+              <h3>Nothing planned on this night... <em>yet!</em></h3> <p> Enter an existing night code or enter a new one to start planning!</p>
+              </div>
             )}
         </div>
       </div>

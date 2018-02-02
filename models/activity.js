@@ -12,6 +12,7 @@ const activitySchema = new Schema({
   notes: {type: String},
   date: { type: Date, default: Date.now },
   votes:{ type: Number, default:1},
+  lovers: {type: Array, default:[]},
   nightID: {type: String, default:1}
 });
 
