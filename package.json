@@ -30,6 +30,8 @@
     "passport-jwt": "^3.0.1",
     "passport-local": "^1.0.0",
     "react-cookie": "^2.1.2",
-    "react-modal": "^3.1.11"
+    "react-google-autocomplete": "^1.0.15",
+    "react-modal": "^3.1.11",
+    "react-places-autocomplete": "^6.0.2"
   }
 }

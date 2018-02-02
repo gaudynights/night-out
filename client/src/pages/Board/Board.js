@@ -4,6 +4,7 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import { List, ListItem } from "../../components/List";
+import Autocomplete from 'react-google-autocomplete';
 
 const style = {
   margin: 20,
@@ -62,7 +63,8 @@ export default class Board extends React.Component {
       activityName: "",
       activityDescription: "",
       activityTime: "",
-      location: "",
+      locationSimple:"",
+      locationExtended: "",
       link: "",
       modalIsOpen: true
     });
@@ -78,7 +80,8 @@ export default class Board extends React.Component {
     activityName: "",
     activityDescription: "",
     activityTime: "",
-    location: "",
+    locationSimple:"",
+    locationExtended: "",
     link: "",
     notes: "",
     votes: "",
@@ -150,7 +153,8 @@ export default class Board extends React.Component {
         activityName: this.state.activityName,
         activityDescription: this.state.activityDescription,
         activityTime: this.state.activityTime,
-        location: this.state.location,
+        locationSimple: this.state.locationSimple,
+        locationExtended: this.state.locationExtended,
         link: this.state.link,
         notes: this.state.notes,
         votes: this.state.votes,
@@ -193,8 +197,18 @@ export default class Board extends React.Component {
             <div className="mdc-text-field">
               <input name="activityTime" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityTime} placeholder="activityTime" />
             </div><br />
-            <div className="mdc-text-field">
-              <input name="location" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.location} placeholder="location" />
+            <div className="mdc-text-field--fullwidth">
+              <Autocomplete name="location" className="mdc-text-field__input" onChange={this.handleChange}  
+                  
+                  onPlaceSelected={(place) => {
+                    console.log(place);
+                    this.setState({locationSimple:place.name});
+                    this.setState({locationExtended:place});
+                  }}
+                  types={['establishment']}
+                  componentRestrictions={{country: "usa"}}
+              />
+
             </div><br />
             <div className="mdc-text-field">
               <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
@@ -230,7 +244,10 @@ export default class Board extends React.Component {
 
                         <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
                         <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
-                        <p style={style.elementStyle}><strong>Location: </strong>{activity.location}</p>
+                        <p style={style.elementStyle}><strong>Location: </strong>{activity.locationSimple}</p>
+                        <p style={style.elementStyle}>{activity.locationExtended ?
+                          activity.locationExtended.formatted_address : activity.locationSimple}</p>
+ 
                         <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
                         <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
                         <p style={style.elementStyle}><strong>Date: </strong>{activity.date}</p>
