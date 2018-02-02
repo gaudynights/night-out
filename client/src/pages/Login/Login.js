@@ -45,7 +45,7 @@ export default class Login extends React.Component {
           localStorage.setItem("userID", res.data.user._id);
           localStorage.setItem("email", res.data.user.email);
           this.props.login();
-          alert("logged in!"); 
+          alert("logged in!");
           console.log(res);
           this.props.history.push("/board")
         })

@@ -42,12 +42,12 @@ export default class NewUser extends React.Component {
         email: this.state.email,
         password: this.state.password
       })
-        .then(res => {alert("user created"); 
+        .then(res => {alert("user created");
           // console.log("newUser ------------ ");
           // console.log(res);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("userID", res.data.user._id);
-          localStorage.setItem("email", res.data.user.email);         
+          localStorage.setItem("email", res.data.user.email);
           this.props.history.push("/board")})
         .catch(err => console.log(err));
     }

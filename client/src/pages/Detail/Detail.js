@@ -20,8 +20,14 @@ class Detail extends Component {
       .catch(err => console.log(err));
   }
 
-  handleClick = () => {
+  searchLocation = (loc) => {
+    API.search(loc)
+    .then(res => this.setState({ result: res.data }))
+    .catch(err => console.log(err));
+  }
 
+  handleClick = () => {
+    this.searchLocation(this.state.location);
   }
 
   render() {

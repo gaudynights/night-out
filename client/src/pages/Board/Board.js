@@ -24,7 +24,8 @@ const style = {
     paddingBottom: 5,
     margin: 10,
     borderRadius: 10,
-    boxShadow: "2px 2px #ccc"
+    boxShadow: "2px 2px #ccc",
+    maxWidth: "40%"
   },
   headStyle: {
     color: "#fff",
@@ -91,7 +92,7 @@ export default class Board extends React.Component {
       const nightCode = localStorage.getItem("nightID")||"";
       if (nightCode && token) {
         this.loadNight(nightCode);
-      } 
+      }
       this.setState({
         nightID: nightCode
       });
