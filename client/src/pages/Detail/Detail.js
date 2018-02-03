@@ -6,6 +6,9 @@ const style = {
   margin: 20,
   btnStyle: {
     backgroundColor: "#607D8B"
+  },
+  locationStyle: {
+    cursor: "pointer"
   }
 }
 
@@ -29,10 +32,6 @@ class Detail extends Component {
       console.log(this.state.activity);
       })
       .catch(err => console.log(err));
-  }
-
-  handleClick = () => {
-
   }
 
   render() {

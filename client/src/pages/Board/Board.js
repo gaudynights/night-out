@@ -96,7 +96,7 @@ export default class Board extends React.Component {
       const nightCode = localStorage.getItem("nightID")||"";
       if (nightCode && token) {
         this.loadNight(nightCode);
-      } 
+      }
       this.setState({
         nightID: nightCode,
         email: email,
@@ -111,7 +111,7 @@ export default class Board extends React.Component {
       this.setState({ activities: res.data });
     })
     .catch(err => {
-      console.log(err); 
+      console.log(err);
       alert("try logging in again\n"+ err);
     });
   }
@@ -236,12 +236,14 @@ export default class Board extends React.Component {
                             {activity.activityName}
                           </h2>
                           </Link>
-                          <button onClick={() => this.upvoteActivity(activity._id,activity.votes)} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite"> 
+                          <button onClick={() => this.upvoteActivity(activity._id,activity.votes)} style={style.favBtn} className="mdc-fab mdc-fab--mini material-icons" aria-label="Favorite">
                             <span className="mdc-fab__icon">
                               favorite
                             </span>
-                          </button> 
+                          </button>
 
+                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.lovers.length}</p>
+                        <p style={style.elementStyle}><strong>Lovers: </strong>{activity.lovers.map( lover => (lover+" "))}</p>
                         <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
                         <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
                         <p style={style.elementStyle}><strong>Location: </strong>{activity.locationSimple}</p>
@@ -250,9 +252,11 @@ export default class Board extends React.Component {
  
                         <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
                         <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
+
                         <p style={style.elementStyle}><strong>Date: </strong>{activity.date}</p>
                         <p style={style.elementStyle}><strong>Votes: </strong>{activity.lovers.length}</p>
                         <p style={style.elementStyle}><strong>Proponents: </strong>{activity.lovers.map( lover => (lover+" "))}</p>                        
+
                         <p style={style.elementStyle}><strong>Night Code: </strong>{activity.nightID}</p>
                       </ListItem>
                       </div>
