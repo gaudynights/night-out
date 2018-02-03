@@ -24,8 +24,10 @@ class Detail extends Component {
     console.log("componentDidMount");
     console.log(this.props.match.params.id);
     API.getActivity(this.props.match.params.id)
-      .then(res => {this.setState({ activity: res.data });
-      console.log(this.state.activity);})
+      .then(res => {
+        this.setState({ activity: res.data });
+      console.log(this.state.activity);
+      })
       .catch(err => console.log(err));
   }
 
@@ -47,9 +49,7 @@ class Detail extends Component {
         <p>Description: {this.state.activity.activityDescription}</p>
         <p>Google rating: {this.state.activity.locationExtended ? this.state.activity.locationExtended.rating : ""}</p>
         <p></p>
-<iframe id="map-embed" width="400px" height="400px" src="//www.google.com/maps/embed/v1/place?q=1620 E Riverside Dr, 1618, Austin, TX 78741, USA
-      &zoom=15
-      &key=AIzaSyCijGORV-k4rRc1KhNlXGZ0YkdrL81xyss">
+<iframe id="map-embed" width="400px" height="400px" src="//www.google.com/maps/embed/v1/place?q=usa&zoom=15&key=AIzaSyCijGORV-k4rRc1KhNlXGZ0YkdrL81xyss">
   </iframe>
         <Link style={style.btnStyle} to="/board" className="mdc-button mdc-button--raised">← Back to board</Link>
     </div>
