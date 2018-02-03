@@ -1,12 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import Autocomplete from 'react-google-autocomplete';
 
 const style = {
   margin: 20,
@@ -43,28 +41,37 @@ const style = {
   subBtn: {
     margin: 10,
     backgroundColor: "#607D8B"
+  },
+  modal: {
+    overlay: {
+      backgroundColor: "rgba(150, 150, 150, .8)"
+    },
+    content : {
+      borderRadius: "15px"
   }
+}
 }
 
 export default class Board extends React.Component {
-
 
   closeModal = () => {
     this.setState({ modalIsOpen: false });
   };
 
   openModal = () => {
-    this.setState({ modalIsOpen: true });
     this.setState({
-      category: "",
-      location: "",
-      time: ""
+      activityName: "",
+      activityDescription: "",
+      activityTime: "",
+      locationSimple:"",
+      locationExtended: "",
+      link: "",
+      modalIsOpen: true
     });
-  }
+  };
 
   handleClick = (e) => {
     e.preventDefault();
-    console.log(this.state);
     this.setState({ modalIsOpen: false });
   };
 
@@ -73,7 +80,8 @@ export default class Board extends React.Component {
     activityName: "",
     activityDescription: "",
     activityTime: "",
-    location: "",
+    locationSimple:"",
+    locationExtended: "",
     link: "",
     notes: "",
     votes: "",
@@ -81,30 +89,45 @@ export default class Board extends React.Component {
     modalIsOpen: false
     };
 
-  componentDidMount() {
-    this.loadActivities();
-  }
+    componentDidMount = () => {
+      const token=localStorage.getItem("token");
+      const email=localStorage.getItem("email");
+      const name=localStorage.getItem("name");
+      const nightCode = localStorage.getItem("nightID")||"";
+      if (nightCode && token) {
+        this.loadNight(nightCode);
+      }
+      this.setState({
+        nightID: nightCode,
+        email: email,
+        name: name
+      });
+    };
 
-  loadActivities = () => {
-    API.getActivities()
-      .then(res =>
-        this.setState({ activities: res.data, activityName: "", activityDescription: "", activityTime: "", location: "", link: "", notes: "", votes: "", nightID: ""})
-      )
-      .catch(err => console.log(err));
-  };
+  loadNight = (nightID) => {
+    API.getNight(nightID)
+    .then(res => {
+      // const orderedActivities = res.data
+      this.setState({ activities: res.data });
+    })
+    .catch(err => {
+      console.log(err);
+      alert("try logging in again\n"+ err);
+    });
+  }
 
   deleteActivity = id => {
     API.deleteActivity(id)
-      .then(res => this.loadActivities())
+      .then(res => this.loadNight(this.state.nightID))
       .catch(err => console.log(err));
-  };
+  }
 
-  upvoteActivity = (id , votes) => {
-        // alert("current votes "+votes);
+  upvoteActivity = (id , votes, lovers) => {
     API.updateActivity(id,{
-      votes: votes+1
+      // votes: votes+1,
+      $addToSet: {lovers: this.state.name}
     })
-      .then(res => this.loadActivities())
+      .then(res => this.loadNight(this.state.nightID))
       .catch(err => console.log(err));
   }
 
@@ -117,21 +140,27 @@ export default class Board extends React.Component {
     });
   };
 
-  handleFormSubmit = event => {
-    event.preventDefault();
+  handleSearch = (e) => {
+    e.preventDefault();
+    this.loadNight(this.state.nightID);
+    localStorage.setItem("nightID", this.state.nightID);
+  }
+
+  handleFormSubmit = e => {
+    e.preventDefault();
     if (this.state.activityName && this.state.activityDescription) {
-        console.log(this.state);
       API.saveActivity({
         activityName: this.state.activityName,
         activityDescription: this.state.activityDescription,
         activityTime: this.state.activityTime,
-        location: this.state.location,
+        locationSimple: this.state.locationSimple,
+        locationExtended: this.state.locationExtended,
         link: this.state.link,
         notes: this.state.notes,
         votes: this.state.votes,
         nightID: this.state.nightID
       })
-        .then(res => this.loadActivities())
+        .then(res => this.loadNight(this.state.nightID))
         .catch(err => console.log(err));
         this.setState({ modalIsOpen: false });
     }
@@ -140,19 +169,22 @@ export default class Board extends React.Component {
   render() {
     return (
       <div style={style}>
-        <h1>Board Name</h1>
+        <h1>{localStorage.getItem("nightID")|| "New Night"}</h1>
         <hr />
 
+        {/* Button to add to board */}
         <button onClick={this.openModal} style={style.buttonStyle} className="mdc-fab material-icons">
           <span className="mdc-fab__icon">add</span>
         </button>
 
+        {/* input for night id */}
         <div className="mdc-text-field">
-          <input style={style.inputStyle} name="nightcode" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightcode} placeholder="Night Code" />
+          <input style={style.inputStyle} name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="Night Code" />
         </div>
-        <button style={style.subBtn} className="mdc-button mdc-button--raised">Submit</button>
+        <button style={style.subBtn} onClick={this.handleSearch} className="mdc-button mdc-button--raised">Submit</button>
 
-        <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false}>
+        {/* modal for adding to the board */}
+        <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false} style={style.modal}>
           <button onClick={this.closeModal}>X</button>
           <h1>Add To Your Board</h1>
           <form>
@@ -165,8 +197,18 @@ export default class Board extends React.Component {
             <div className="mdc-text-field">
               <input name="activityTime" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityTime} placeholder="activityTime" />
             </div><br />
-            <div className="mdc-text-field">
-              <input name="location" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.location} placeholder="location" />
+            <div className="mdc-text-field--fullwidth">
+              <Autocomplete name="location" className="mdc-text-field__input" onChange={this.handleChange}  
+                  
+                  onPlaceSelected={(place) => {
+                    console.log(place);
+                    this.setState({locationSimple:place.name});
+                    this.setState({locationExtended:place});
+                  }}
+                  types={['establishment']}
+                  componentRestrictions={{country: "usa"}}
+              />
+
             </div><br />
             <div className="mdc-text-field">
               <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
@@ -179,13 +221,14 @@ export default class Board extends React.Component {
           </form>
         </Modal>
 
+        {/* Board items dispaly */}
         <div>
         {this.state.activities.length ? (
               <div>
                 <List>
                     {this.state.activities.map(activity => (
-                      <div style={style.divStyle}>
-                      <ListItem key={activity._id}>
+                      <div style={style.divStyle} key={activity._id}>
+                      <ListItem>
 
                           <DeleteBtn onClick={() => this.deleteActivity(activity._id)} />
                         <Link to={"/activities/" + activity._id}>
@@ -199,21 +242,30 @@ export default class Board extends React.Component {
                             </span>
                           </button>
 
+                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.lovers.length}</p>
+                        <p style={style.elementStyle}><strong>Lovers: </strong>{activity.lovers.map( lover => (lover+" "))}</p>
                         <p style={style.elementStyle}><strong>Description: </strong>{activity.activityDescription}</p>
                         <p style={style.elementStyle}><strong>Time: </strong>{activity.activityTime}</p>
-                        <p style={style.elementStyle}><strong>Location: </strong>{activity.location}</p>
+                        <p style={style.elementStyle}><strong>Location: </strong>{activity.locationSimple}</p>
+                        <p style={style.elementStyle}>{activity.locationExtended ?
+                          activity.locationExtended.formatted_address : activity.locationSimple}</p>
+ 
                         <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
                         <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
+
                         <p style={style.elementStyle}><strong>Date: </strong>{activity.date}</p>
-                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.votes}</p>
+                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.lovers.length}</p>
+                        <p style={style.elementStyle}><strong>Proponents: </strong>{activity.lovers.map( lover => (lover+" "))}</p>                        
+
                         <p style={style.elementStyle}><strong>Night Code: </strong>{activity.nightID}</p>
                       </ListItem>
                       </div>
                     ))}
                 </List>
               </div>
-            ) : (
-              <h3>No Results to Display</h3>
+            ) : (<div>
+              <h3>Nothing planned on this night... <em>yet!</em></h3> <p> Enter an existing night code or enter a new one to start planning!</p>
+              </div>
             )}
         </div>
       </div>

@@ -1,21 +1,21 @@
-const AuthenticationController = require('../../controllers/authentication'),  
+const AuthenticationController = require('../../controllers/authentication'),
       express = require('express'),
       passportService = require('../../passport'),
       passport = require('passport');
 
 
 // Middleware to require login/auth
-const requireAuth = passport.authenticate('jwt', { session: false });  
-const requireLogin = passport.authenticate('local', { session: false });  
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireLogin = passport.authenticate('local', { session: false });
 
 // // Constants for role types
-// const REQUIRE_ADMIN = "Admin",  
+// const REQUIRE_ADMIN = "Admin",
 //       REQUIRE_OWNER = "Owner",
 //       REQUIRE_CLIENT = "Client",
 //       REQUIRE_MEMBER = "Member";
-  
+
   // Initializing route groups
-   
+
   // apiRoutes = express.Router(),
     const authRoutes = express.Router();
 

@@ -1,5 +1,6 @@
 import React from "react";
 import API from "../../utils/API";
+import { Link } from "react-router-dom";
 
 const style = {
   margin: 20,
@@ -15,7 +16,7 @@ export default class Login extends React.Component {
       email: "",
       password: ""
     };
-  
+
 
   handleClick = (e) => {
     e.preventDefault();
@@ -39,10 +40,28 @@ export default class Login extends React.Component {
         email: this.state.email,
         password: this.state.password
       })
-        .then(res => alert("logged in!"))
+        .then(res => {
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("userID", res.data.user._id);
+          localStorage.setItem("email", res.data.user.email);
+          localStorage.setItem("name", res.data.user.firstName.concat(" ",res.data.user.lastName.charAt(0),"."));
+          this.props.login();
+          alert("logged in!");
+          // console.log(res);
+          // console.log(this.props);
+          this.props.history.push("/board")
+        })
         .catch(err => console.log(err));
     }
   };
+
+
+  // // this.login
+
+  // login = () => {
+  //   // this.props.login
+  //   this.props.login();
+  // }
 
 
   render() {
@@ -58,7 +77,7 @@ export default class Login extends React.Component {
             <input type="password" name="password" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.password} placeholder="password" />
           </div><br />
         <button style={style.buttonStyle} className="mdc-button mdc-button--raised" type="submit" onClick={this.handleFormSubmit}>Login</button>
-          <button style={style.buttonStyle} className="mdc-button mdc-button--raised" type="submit">New User</button>
+          <Link to="/newuser" style={style.buttonStyle} className="mdc-button mdc-button--raised">New User</Link>
         </form>
       </div>
     );
