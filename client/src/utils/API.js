@@ -1,7 +1,5 @@
 import axios from "axios";
 // axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
-const frontURL = "";
-const backURL = "";
 
 const getToken = () => {
   const token=localStorage.getItem("token");
@@ -44,8 +42,5 @@ export default {
   },
   login:function(userData){
     return axios.post("/api/authenticate/login",userData);
-  },
-  search:function(loc){
-    return axios.get(frontURL + loc + backURL);
   }
 };

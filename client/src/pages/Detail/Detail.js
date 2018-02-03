@@ -23,26 +23,13 @@ class Detail extends Component {
       .catch(err => console.log(err));
   }
 
-  searchLocation = (loc) => {
-    API.search(loc)
-    .then(res => {
-      this.setState({ result: res.data })
-      console.log(res.data);
-    })
-    .catch(err => console.log(err));
-  }
-
-  handleClick = () => {
-    this.searchLocation(this.state.activity.location);
-  }
-
   render() {
     return (
       <div style={style}>
         <h1>{this.state.activity.activityName}</h1>
         <hr />
         <h3>More Details</h3>
-        <p>Location: <span style={style.locationStyle} onClick={this.handleClick}>{this.state.activity.location}</span></p>
+        <p>Location: {this.state.activity.location}</p>
         <p>Description: {this.state.activity.activityDescription}</p>
         <Link style={style.btnStyle} to="/board" className="mdc-button mdc-button--raised">← Back to board</Link>
     </div>
