@@ -252,6 +252,11 @@ export default class Board extends React.Component {
  
                         <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
                         <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
+
+                        <p style={style.elementStyle}><strong>Date: </strong>{activity.date}</p>
+                        <p style={style.elementStyle}><strong>Votes: </strong>{activity.lovers.length}</p>
+                        <p style={style.elementStyle}><strong>Proponents: </strong>{activity.lovers.map( lover => (lover+" "))}</p>                        
+
                         <p style={style.elementStyle}><strong>Night Code: </strong>{activity.nightID}</p>
                       </ListItem>
                       </div>
