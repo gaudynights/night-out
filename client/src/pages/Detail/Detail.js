@@ -6,6 +6,9 @@ const style = {
   margin: 20,
   btnStyle: {
     backgroundColor: "#607D8B"
+  },
+  locationStyle: {
+    cursor: "pointer"
   }
 }
 
@@ -18,10 +21,6 @@ class Detail extends Component {
     API.getActivity(this.props.match.params.id)
       .then(res => this.setState({ activity: res.data }))
       .catch(err => console.log(err));
-  }
-
-  handleClick = () => {
-
   }
 
   render() {

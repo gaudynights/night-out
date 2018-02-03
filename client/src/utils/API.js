@@ -1,7 +1,6 @@
 import axios from "axios";
 // axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 
-
 const getToken = () => {
   const token=localStorage.getItem("token");
   axios.defaults.headers.common['authorization'] = token;
