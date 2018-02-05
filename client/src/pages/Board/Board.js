@@ -212,9 +212,6 @@ export default class Board extends React.Component {
 
             </div><br />
             <div className="mdc-text-field--fullwidth">
-              <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="Link" />
-            </div><br />
-            <div className="mdc-text-field--fullwidth">
               <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="Night ID" />
             </div><br />
 
@@ -250,7 +247,6 @@ export default class Board extends React.Component {
                         <p style={style.elementStyle}><strong>Location: </strong>{activity.locationSimple}</p>
                         <p style={style.elementStyle}>{activity.locationExtended ?
                           activity.locationExtended.formatted_address : activity.locationSimple}</p>
-                        <p style={style.elementStyle}><strong>Link: </strong>{activity.link}</p>
                         <p style={style.elementStyle}><strong>Notes: </strong>{activity.notes}</p>
                         <p style={style.elementStyle}><strong>Night Code: </strong>{activity.nightID}</p>
                       </ListItem>
