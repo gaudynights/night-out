@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const style = {
+  width: "100vw",
   backgroundColor: "#607D8B",
+  // textShadow: "1px 1px 3px  black",
   linkStyle: {
     color: "white"
   }

@@ -5,7 +5,8 @@ import API from "../../utils/API";
 const style = {
   margin: 20,
   btnStyle: {
-    backgroundColor: "#607D8B"
+    backgroundColor: "#607D8B",
+    marginTop: 5
   },
   locationStyle: {
     cursor: "pointer"

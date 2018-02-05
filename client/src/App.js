@@ -17,7 +17,7 @@ class App extends React.Component {
 
   }
 
-  login = () => {console.log(this.state); 
+  login = () => {console.log(this.state);
   this.setState({isAuthenticated : true})}
   logout = () => { this.setState({isAuthenticated : false} )}
 
@@ -31,10 +31,10 @@ class App extends React.Component {
             <Route exact path="/login" render={
               (props)=>{
                 return (
-                  <Login login={this.login} history={props.history} /> 
+                  <Login login={this.login} history={props.history} />
                 );
               }
-            } 
+            }
             />
             <Route exact path="/board" component={Board} />
             <Route exact path="/newuser" component={NewUser} />
