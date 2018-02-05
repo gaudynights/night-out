@@ -187,7 +187,7 @@ export default class Board extends React.Component {
         {/* modal for adding to the board */}
         <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false} style={style.modal}>
           <button onClick={this.closeModal}>X</button>
-          <h1>Add To Your Board</h1>
+          <h1>Add To Your Night</h1>
           <form  style={style.formStyle}>
             <div className="mdc-text-field--fullwidth">
               <input name="activityName" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityName} placeholder="Activity Name" />
@@ -259,7 +259,8 @@ export default class Board extends React.Component {
                 </List>
               </div>
             ) : (<div>
-              <h3>Nothing planned on this night... <em>yet!</em></h3> <p> Enter an existing night code or enter a new one to start planning!</p>
+              <h3>Nothing planned on this night... <em>yet!</em></h3>
+              <p>Use the "plus" button to start creating your night or enter an existing night code to view or add to your night.</p>
               </div>
             )}
         </div>
