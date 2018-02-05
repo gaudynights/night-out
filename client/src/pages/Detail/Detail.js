@@ -45,12 +45,12 @@ class Detail extends Component {
         <hr />
         <h3>More Details</h3>
         <p>{this.state.activity.locationSimple}</p>
-        <a href=""> {this.state.activity.locationExtended ? this.state.activity.locationExtended.formatted_address : this.state.activity.locationSimple}</a>
-        <br/>
-        <a href="">{this.state.activity.locationExtended ? this.state.activity.locationExtended.formatted_phone_number : ""}</a>
+        <p><a href={this.state.activity.locationExtended ? this.state.activity.locationExtended.website : ""} target="_blank">{this.state.activity.locationExtended ? this.state.activity.locationExtended.website : ""}</a></p>
+        <p><a href=""> {this.state.activity.locationExtended ? this.state.activity.locationExtended.formatted_address : this.state.activity.locationSimple}</a></p>
+        <p><a href="">{this.state.activity.locationExtended ? this.state.activity.locationExtended.formatted_phone_number : ""}</a></p>
         <p>Description: {this.state.activity.activityDescription}</p>
         <p>Google rating: {this.state.activity.locationExtended ? this.state.activity.locationExtended.rating : ""}</p>
-        <iframe title="map-embed" id="map-embed" width="400px" height="400px" src={`//www.google.com/maps/embed/v1/place?q=${this.state.mapLocation}&zoom=15&key=AIzaSyCijGORV-k4rRc1KhNlXGZ0YkdrL81xyss`}>
+        <iframe title="map-embed" id="map-embed" width="auto" height="400" src={`//www.google.com/maps/embed/v1/place?q=${this.state.mapLocation}&zoom=15&key=AIzaSyCijGORV-k4rRc1KhNlXGZ0YkdrL81xyss`}>
         </iframe>
         <br />
         <Link style={style.btnStyle} to="/board" className="mdc-button mdc-button--raised">← Back to board</Link>
