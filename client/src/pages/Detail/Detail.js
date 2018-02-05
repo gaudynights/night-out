@@ -5,23 +5,18 @@ import API from "../../utils/API";
 const style = {
   margin: 20,
   btnStyle: {
-    backgroundColor: "#607D8B"
+    backgroundColor: "#607D8B",
+    marginTop: 5
   },
   locationStyle: {
     cursor: "pointer"
   }
 }
 
-
-
 class Detail extends Component {
   state = {
     activity: []
   };
-
-
-
-
 
   componentDidMount() {
     console.log("componentDidMount");
@@ -29,7 +24,6 @@ class Detail extends Component {
     API.getActivity(this.props.match.params.id)
       .then(res => {
         this.setState({ activity: res.data });
-      console.log(this.state.activity);
       })
       .catch(err => console.log(err));
   }
@@ -47,9 +41,8 @@ class Detail extends Component {
         <a href="">{this.state.activity.locationExtended ? this.state.activity.locationExtended.formatted_phone_number : ""}</a>
         <p>Description: {this.state.activity.activityDescription}</p>
         <p>Google rating: {this.state.activity.locationExtended ? this.state.activity.locationExtended.rating : ""}</p>
-        <p></p>
-<iframe id="map-embed" width="400px" height="400px" src="//www.google.com/maps/embed/v1/place?q=usa&zoom=15&key=AIzaSyCijGORV-k4rRc1KhNlXGZ0YkdrL81xyss">
-  </iframe>
+        <iframe id="map-embed" width="400px" height="400px" src={`//www.google.com/maps/embed/v1/place?q= ${this.state.activity.locationSimple} &zoom=15&key=AIzaSyCijGORV-k4rRc1KhNlXGZ0YkdrL81xyss`}></iframe>
+        <br />
         <Link style={style.btnStyle} to="/board" className="mdc-button mdc-button--raised">← Back to board</Link>
     </div>
     );
