@@ -47,7 +47,8 @@ const style = {
       backgroundColor: "rgba(150, 150, 150, .8)"
     },
     content : {
-      borderRadius: "15px"
+      borderRadius: "15px",
+      maxWidth: 500
   }
 }
 }
@@ -187,15 +188,15 @@ export default class Board extends React.Component {
         <Modal isOpen={this.state.modalIsOpen} ariaHideApp={false} style={style.modal}>
           <button onClick={this.closeModal}>X</button>
           <h1>Add To Your Board</h1>
-          <form>
-            <div className="mdc-text-field">
-              <input name="activityName" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityName} placeholder="activityName" />
+          <form  style={style.formStyle}>
+            <div className="mdc-text-field--fullwidth">
+              <input name="activityName" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityName} placeholder="Activity Name" />
             </div><br />
-            <div className="mdc-text-field">
-              <input name="activityDescription" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityDescription} placeholder="activityDescription" />
+            <div className="mdc-text-field--fullwidth">
+              <input name="activityDescription" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityDescription} placeholder="Activity Description" />
             </div><br />
-            <div className="mdc-text-field">
-              <input name="activityTime" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityTime} placeholder="activityTime" />
+            <div className="mdc-text-field--fullwidth">
+              <input name="activityTime" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.activityTime} placeholder="Activity Time" />
             </div><br />
             <div className="mdc-text-field--fullwidth">
               <Autocomplete name="location" className="mdc-text-field__input" onChange={this.handleChange}
@@ -210,11 +211,11 @@ export default class Board extends React.Component {
               />
 
             </div><br />
-            <div className="mdc-text-field">
-              <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="link" />
+            <div className="mdc-text-field--fullwidth">
+              <input name="link" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.link} placeholder="Link" />
             </div><br />
-            <div className="mdc-text-field">
-              <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="nightID" />
+            <div className="mdc-text-field--fullwidth">
+              <input name="nightID" className="mdc-text-field__input" onChange={this.handleChange} value={this.state.nightID} placeholder="Night ID" />
             </div><br />
 
             <button onClick={this.handleFormSubmit} style={style.buttonStyle} className="mdc-button mdc-button--raised">Submit</button>
