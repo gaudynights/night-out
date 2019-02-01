@@ -16,7 +16,7 @@ const style = {
 class Detail extends Component {
   state = {
     activity: [],
-    mapLocation: ""
+    mapLocation: "garwood%26lanes"
   };
 
 
@@ -28,6 +28,7 @@ class Detail extends Component {
         this.setState({ activity: res.data });
       console.log(this.state.activity);
       let mapSpot=this.state.activity.locationSimple;
+      console.log(mapSpot);
       // console.log("wheres the & "+mapSpot.indexOf('&'));
       mapSpot=mapSpot.replace('&','%26');
       this.setState({mapLocation:mapSpot})
