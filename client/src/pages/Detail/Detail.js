@@ -16,7 +16,7 @@ const style = {
 class Detail extends Component {
   state = {
     activity: [],
-    mapLocation: "garwood%26lanes"
+    mapLocation: "garwood lanes"
   };
 
 
